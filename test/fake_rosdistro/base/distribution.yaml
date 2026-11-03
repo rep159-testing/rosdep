@@ -1,0 +1,15 @@
+%YAML 1.1
+---
+release_platforms:
+  ubuntu:
+    - bionic
+repositories:
+  ros:
+    release:
+      tags:
+        release: release/melodic/{package}/{version}
+      url: https://github.com/ros-gbp/ros-release.git
+      version: 1.14.9-1
+    status: maintained
+type: distribution
+version: 3

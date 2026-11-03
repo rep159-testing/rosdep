@@ -6,5 +6,17 @@ distributions:
     distribution_status: end-of-life
     distribution_type: ros1
     python_version: 2
+  z_base:
+    distribution: [base/distribution.yaml]
+    distribution_type: ros1
+  z_derived_binary:
+    distribution: [derived_binary/distribution.yaml]
+    distribution_type: ros1
+  z_derived_source:
+    distribution: [derived_source/distribution.yaml]
+    distribution_type: ros1
+  z_derived_naming:
+    distribution: [derived_naming/distribution.yaml]
+    distribution_type: ros1
 type: index
 version: 4

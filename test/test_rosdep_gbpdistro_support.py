@@ -236,3 +236,41 @@ def test_get_owner_name_homebrew():
     assert get_owner_name(user_test_url) == 'zklapow', 'url: ' + user_test_url
     non_github_url = 'https://ros.org/files/releases/fuerte.yaml'
     assert get_owner_name(non_github_url) == 'ros', 'url: ' + non_github_url
+
+
+@pytest.mark.usefixtures('fake_rosdistro_index')
+def test_get_gbprepo_as_rosdep_data_binary_import():
+    from rosdep2.gbpdistro_support import get_gbprepo_as_rosdep_data
+    data = get_gbprepo_as_rosdep_data('z_derived_binary')
+
+    # ros comes from base (via binary_import) -> resolves to ros-z-base-ros
+    assert 'ros' in data
+    assert data['ros']['ubuntu']['bionic']['apt']['packages'] == ['ros-z-base-ros']
+
+    # new_package is defined in z_derived_binary -> resolves to ros-z-derived-binary-new-package
+    assert 'new_package' in data
+    assert data['new_package']['ubuntu']['bionic']['apt']['packages'] == ['ros-z-derived-binary-new-package']
+
+
+@pytest.mark.usefixtures('fake_rosdistro_index')
+def test_get_gbprepo_as_rosdep_data_source_rebuild():
+    from rosdep2.gbpdistro_support import get_gbprepo_as_rosdep_data
+    data = get_gbprepo_as_rosdep_data('z_derived_source')
+
+    # ros comes from base (via source_rebuild) -> resolves to ros-z-derived-source-ros
+    assert 'ros' in data
+    assert data['ros']['ubuntu']['bionic']['apt']['packages'] == ['ros-z-derived-source-ros']
+
+
+@pytest.mark.usefixtures('fake_rosdistro_index')
+def test_get_gbprepo_as_rosdep_data_binary_rule():
+    from rosdep2.gbpdistro_support import get_gbprepo_as_rosdep_data
+    data = get_gbprepo_as_rosdep_data('z_derived_naming')
+
+    # ros comes from base (via binary_import) -> resolves to ros-z-base-ros
+    assert 'ros' in data
+    assert data['ros']['ubuntu']['bionic']['apt']['packages'] == ['ros-z-base-ros']
+
+    # vendor_package defines a repo-level override rule -> resolves to custom-vendor-pkg
+    assert 'vendor_package' in data
+    assert data['vendor_package']['ubuntu']['bionic']['apt']['packages'] == ['custom-vendor-pkg']

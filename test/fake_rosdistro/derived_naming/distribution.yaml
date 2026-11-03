@@ -1,0 +1,23 @@
+%YAML 1.1
+---
+release_platforms:
+  ubuntu:
+    - bionic
+binary_rule:
+  search: '^'
+  replace: 'vendor-{distro}-'
+extends:
+  - distro_name: z_base
+    extension_method: binary_import
+repositories:
+  vendor_package:
+    release:
+      tags:
+        release: release/melodic/{package}/{version}
+      url: https://github.com/example-release/vendor_package.git
+      version: 1.0.0
+      binary_rule:
+        search: '^vendor-package$'
+        replace: 'custom-vendor-pkg'
+type: distribution
+version: 3
