@@ -15,5 +15,8 @@ distributions:
   z_derived_source:
     distribution: [derived_source/distribution.yaml]
     distribution_type: ros1
+  z_derived_naming:
+    distribution: [derived_naming/distribution.yaml]
+    distribution_type: ros1
 type: index
 version: 4
